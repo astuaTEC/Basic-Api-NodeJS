@@ -2,7 +2,6 @@
     {
         "placa": "1234",
         "spaceId": "1",
-        "brand": "Toyota",
-        "horaInicio": "14:00:00"
+        "horaIngreso": "14:00:00"
     }
 ]

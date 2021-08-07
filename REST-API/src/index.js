@@ -3,6 +3,7 @@ const app = express();
 const morgan = require('morgan');
 const cors = require('cors')
 
+
 //configuraciones
 app.set('port', process.env.PORT || 4000)
 app.set('json spaces', 2);
@@ -16,8 +17,12 @@ app.use(express.json());
 // rutas
 app.use(require('./routes/index'));
 app.use(require('./routes/spaces'));
+app.use(require('./routes/vehicles'));
+app.all('/*', (req, res) => {
+    res.status(405).json({error: 'Metodo no aceptado'});
+});
 
-// empezando el servidor
+// inicializando el servidor
 app.listen(app.get('port'), () => {
     console.log(`Server on port ${app.get('port')}`);
 });

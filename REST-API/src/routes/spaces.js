@@ -1,4 +1,4 @@
-const { Router, request } = require('express');
+const { Router } = require('express');
 const router = Router();
 const _ = require('underscore');
 
@@ -54,7 +54,7 @@ router.post('/spaces', (req, res) => {
         spaces.push(newSpace);
         res.json(spaces);
     } else {
-        res.status(500).json({error: 'Hay un error'});
+        res.status(404).json({error: 'No se encontro la informacion del espacio'});
     }
 });
 
@@ -103,6 +103,10 @@ router.delete('/spaces/:id', (req, res) => {
         res.status(404).json({error: 'No se encontro el espacio a eliminar'});
     }
    
+});
+
+router.all('/spaces', (req, res) => {
+    res.status(405).json({error: 'Metodo no aceptado'});
 });
 
 module.exports = router;
