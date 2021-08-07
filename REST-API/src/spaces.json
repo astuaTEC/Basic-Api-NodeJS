@@ -1,0 +1,17 @@
+[
+    {
+        "id": "1",
+        "state": "in-use",
+        "info": "Este espacio es para vehiculos grandes"
+    },
+    {
+        "id": "2",
+        "state": "free",
+        "info": "Este espacio es para vehiculos pequenos"
+    },
+    {
+        "id": "3",
+        "state": "free",
+        "info": "Este espacio es para motos"
+    }
+]
