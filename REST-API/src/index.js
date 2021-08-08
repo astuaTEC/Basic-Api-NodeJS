@@ -12,7 +12,7 @@ app.use(cors()); //se configura el cors (Cross-Origin)
 //middlewares
 app.use(morgan('dev')); //sirve para ver en consola lo que llega al servidor
 app.use(express.urlencoded({extended: false}));
-app.use(express.json());
+app.use(express.json()); // para usar json
 
 // rutas
 app.use(require('./routes/index'));

@@ -20,7 +20,7 @@ router.post('/reservations', (req, res) => {
                 break;
             }
         }
-        if(idSpace !== null){
+        if(idSpace != null){
             let date = new Date()
             let hora = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
             let vehicle = {placa: placa, spaceId: idSpace, horaIngreso: hora};

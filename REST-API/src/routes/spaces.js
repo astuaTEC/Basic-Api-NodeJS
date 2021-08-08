@@ -62,7 +62,7 @@ router.put('/spaces/:id', (req, res) => {
     const { id } = req.params;
     const {info} = req.body;
     if(info){
-        _.each(spaces, (space, i) => {
+        _.each(spaces, (space) => {
             if(space.id == id){
                 space.info = info; //se actualizan todos los atributos
             }

@@ -11,7 +11,12 @@
     },
     {
         "id": "3",
-        "state": "free",
+        "state": "in-use",
         "info": "Este espacio es para motos"
+    },
+    {
+        "id": "4",
+        "state": "free",
+        "info": "Este espacio es para cuadraciclos"
     }
 ]
