@@ -1,7 +1,10 @@
 const express = require ('express');
+const https = require('https');
 const app = express();
 const morgan = require('morgan');
 const cors = require('cors')
+const fs = require('fs');
+const path = require('path');
 
 
 //configuraciones
@@ -23,6 +26,16 @@ app.all('/*', (req, res) => {
 });
 
 // inicializando el servidor
-app.listen(app.get('port'), () => {
+/*app.listen(app.get('port'), () => {
     console.log(`Server on port ${app.get('port')}`);
+});*/
+
+//Se configura el certificado ssl
+const sslServer = https.createServer({
+    key: fs.readFileSync(path.join(__dirname, '../cert', 'key.pem')),
+    cert: fs.readFileSync(path.join(__dirname, '../cert', 'cert.pem')),
+}, app);
+
+sslServer.listen(app.get('port'), () => {
+    console.log(`Secure Server 🔥 on port ${app.get('port')}`);
 });
