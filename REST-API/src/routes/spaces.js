@@ -2,9 +2,29 @@ const { Router } = require('express');
 const router = Router();
 const _ = require('underscore');
 
-const spaces = require('../spaces.json');
-const vehicles = require('../vehicles.json');
+const spaces = require('../data/spaces.json');
+const vehicles = require('../data/vehicles.json');
 
+/**
+ * @swagger
+ * paths:
+ *  /spaces:
+ *      get:
+ *          description: Retorna un arreglo con los datos de todos los espacios existentes en el parqueo.
+ * 
+ *          parameters:
+ *            - in: query
+ *              name: state
+ *              description: los valores que puede recibir es free o in-use.
+ *              required: false
+ * 
+ *          responses:
+ *              '200':
+ *                  description: Una respuesta exitosa con la lista de espacios.
+ *              '404':
+ *                  description: State invalido
+ * 
+ */
 router.get('/spaces', (req, res) => {
     const { state } = req.query;
     if (state) {
@@ -25,6 +45,26 @@ router.get('/spaces', (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * paths:
+ *  /spaces/{id}:
+ *      get:
+ *          description: Consulta un espacio específico indicado por el id.
+ * 
+ *          parameters:
+ *            - in: path
+ *              name: id
+ *              description: El id del espacio a buscar.
+ *              required: false
+ * 
+ *          responses:
+ *              '200':
+ *                  description: Una respuesta exitosa con el espacio
+ *              '404':
+ *                  description: No se encuentra el elemento especificado
+ * 
+ */
 router.get('/spaces/:id', (req, res) => {
     const { id } = req.params;
     let result = '';
@@ -44,6 +84,26 @@ router.get('/spaces/:id', (req, res) => {
     
 });
 
+/**
+ * @swagger
+ * paths:
+ *  /spaces:
+ *      post:
+ *          description: Registra una nuevo espacio. Se le asigna un valor autogenerado como id. Se crea con el estado free
+ * 
+ *          requestBody:
+ *              description: El objeto con la informacion del espacio a crear
+ *              required: true
+ *              content:
+ *                  application/json
+ * 
+ *          responses:
+ *              '200':
+ *                  description: Una respuesta exitosa con todos los espacios. Incluido el nuevo
+ *              '404':
+ *                  description: No se encontro la informacion del espacio
+ * 
+ */
 router.post('/spaces', (req, res) => {
     console.log(req.body);
     const { info } = req.body;
@@ -58,6 +118,33 @@ router.post('/spaces', (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * paths:
+ *  /spaces/{id}:
+ *      put:
+ *          description: Registra una nuevo espacio. Se le asigna un valor autogenerado como id. Se crea con el estado free
+ * 
+ *          requestBody:
+ *              name: id
+ *              description: El objeto con la informacion del espacio a modificar
+ *              required: true
+ *              content:
+ *                  application/json
+ *
+ *          parameters:
+ *            - in: path
+ *              name: id
+ *              required: true
+ *              description: El id del espacio a modificar
+ * 
+ *          responses:
+ *              '200':
+ *                  description: Una respuesta exitosa con todos los espacios. Incluido el actualizado
+ *              '404':
+ *                  description: No se encontro el espacio indicado
+ * 
+ */
 router.put('/spaces/:id', (req, res) => {
     const { id } = req.params;
     const {info} = req.body;
@@ -69,11 +156,31 @@ router.put('/spaces/:id', (req, res) => {
         });
         res.json(spaces);
     } else {
-        res.status(500).json({error: 'Hay un error'});
+        res.status(500).json({error: 'No se encontro el espacio indicado'});
     }
 });
 
 
+/**
+ * @swagger
+ * paths:
+ *  /spaces/{id}:
+ *      delete:
+ *          description: Elimina el espacio indicado.
+ *
+ *          parameters:
+ *            - in: path
+ *              name: id
+ *              required: true
+ *              description: El id del espacio a eliminar
+ * 
+ *          responses:
+ *              '200':
+ *                  description: Una respuesta exitosa con todos los espacios que quedaron.
+ *              '404':
+ *                  description: Hay un vehiculo en ese espacio o No se encontro el espacio a eliminar.
+ * 
+ */
 router.delete('/spaces/:id', (req, res) => {
     const { id } = req.params;
     let reservado = false;

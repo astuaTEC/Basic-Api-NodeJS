@@ -6,6 +6,27 @@ const cors = require('cors')
 const fs = require('fs');
 const path = require('path');
 
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+
+// https://swagger.io/specification/
+const swaggerOptions = {
+    swaggerDefinition: {
+        info: {
+            title: "API Investigacion #1",
+            description: "Una API para la investigacion #1 de SOA",
+            contact: {
+                name: "DarkSolutions"
+            },
+            servers: ["https://localhost:4000"]
+        }
+    },
+    apis: ["src/index.js", "src/routes/*.js"],
+    version: "3.0.3"
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 //configuraciones
 app.set('port', process.env.PORT || 4000)
@@ -18,9 +39,9 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.json()); // para usar json
 
 // rutas
-app.use(require('./routes/index'));
 app.use(require('./routes/spaces'));
 app.use(require('./routes/vehicles'));
+
 app.all('/*', (req, res) => {
     res.status(405).json({error: 'Metodo no aceptado'});
 });
@@ -30,7 +51,7 @@ app.all('/*', (req, res) => {
     console.log(`Server on port ${app.get('port')}`);
 });*/
 
-//Se configura el certificado ssl
+//Se configura el certificado ssl 
 const sslServer = https.createServer({
     key: fs.readFileSync(path.join(__dirname, '../cert', 'key.pem')),
     cert: fs.readFileSync(path.join(__dirname, '../cert', 'cert.pem')),
