@@ -46,7 +46,8 @@ app.all('/*', (req, res) => {
     res.status(405).json({error: 'Metodo no aceptado'});
 });
 
-// inicializando el servidor
+
+// inicializando el servidor en http
 /*app.listen(app.get('port'), () => {
     console.log(`Server on port ${app.get('port')}`);
 });*/

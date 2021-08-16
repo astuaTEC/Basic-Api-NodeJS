@@ -4,6 +4,7 @@ const _ = require('underscore');
 
 const vehicles = require('../data/vehicles.json');
 const spaces = require('../data/spaces.json');
+const { result } = require('underscore');
 
 /**
  * @swagger
@@ -14,9 +15,27 @@ const spaces = require('../data/spaces.json');
  *          responses:
  *              '200':
  *                  description: Una respuesta exitosa con la lista de carros.
+ *          parameters:
+ *            - in: path
+ *              name: placa
+ *              description: La placa a filtrar.
+ *              required: false
  */
 router.get('/reservations', (req, res) => {
-    res.json(vehicles);
+    const { placa } = req.query;
+    if(placa){
+        for (let i = 0; i < vehicles.length; i++) {
+            if (vehicles[i].placa == placa) {
+                res.json(vehicles[i]);
+                break;
+            }
+        }
+        
+
+    }
+    else {
+        res.json(vehicles);
+    }
 });
 
 /**

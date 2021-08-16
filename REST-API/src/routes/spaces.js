@@ -17,6 +17,16 @@ const vehicles = require('../data/vehicles.json');
  *              name: state
  *              description: los valores que puede recibir es free o in-use.
  *              required: false
+ *
+ *            - in: query
+ *              name: offset
+ *              description: para establecer la posición de partida de la lista.
+ *              required: false
+ * 
+ *            - in: query
+ *              name: limit
+ *              description: número de elementos de la colección a devolver desde el offset.
+ *              required: false
  * 
  *          responses:
  *              '200':
@@ -27,21 +37,47 @@ const vehicles = require('../data/vehicles.json');
  */
 router.get('/spaces', (req, res) => {
     const { state } = req.query;
+    let { offset } = req.query;
+    let { limit } = req.query;
+    if(offset == undefined){
+        offset = 0;
+    }
+    if(limit == undefined){
+        limit = spaces.length;
+    }
     if (state) {
         if ((state === 'free' || state === 'in-use')) {
             let result = [];
-            _.each(spaces, (space, i) => {
-                if (space.state == state) {
-                    result.push(space);
+            let contador = 0;
+            if(offset > 0){
+                offset--;
+            }
+            for (let i =  offset; i < spaces.length; i++) {
+                if (spaces[i].state == state && contador < limit) {
+                    result.push(spaces[i]);
+                    contador++;
                 }
-            });
+            }
+
             res.json(result);
         } else {
             res.status(404).json({ error: 'State invalido' });
         }
         
     } else {
-        res.json(spaces);
+        let result = [];
+        let contador = 0;
+        if(offset > 0){
+            offset--;
+        }
+        for (let i =  offset; i < spaces.length; i++) {
+            if(contador < limit){
+                result.push(spaces[i]); 
+                contador++;
+            }
+                      
+        }
+        res.json(result);
     }
 });
 
