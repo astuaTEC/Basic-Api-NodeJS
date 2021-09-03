@@ -1,6 +1,6 @@
 node{
     stage('Clonar el git'){
-          git 'https://github.com/astuaTEC/Basic-Api-NodeJS.git'
+          git 'https://github.com/astuaTEC/Basic-Api-NodeJS'
     }
     stage('SonarCloud Analysis'){
         withSonarQubeEnv('sonar'){
