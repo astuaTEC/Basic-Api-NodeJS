@@ -5,6 +5,7 @@ node{
         -D sonar.organization=astuatec \
         -D sonar.projectKey=astuaTEC_Basic-Api-NodeJS \
         -D sonar.sources=. \
+        -D sonar.exclusions=Jenkinsfile \
         -D sonar.host.url=https://sonarcloud.io"
         }
     }
